@@ -6,7 +6,7 @@ import Routes from './routes/routesAdm';
 
 function App() {
   return (
-    <div >
+    <div>
      <Router>
           <Routes/>
       </Router>

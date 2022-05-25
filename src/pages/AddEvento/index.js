@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import api from '../../config/configApi';
 
 import { Link, Redirect } from "react-router-dom";
+import {Container } from '../../styles/custom'
 
 export const AddEvento = () => {
 
@@ -51,7 +52,8 @@ export const AddEvento = () => {
 
     }
     return (
-        <div>
+        <>
+        <Container>
             <Link to="/">Voltar</Link>
             <h1>Cadastrar Eventos</h1>
 
@@ -103,9 +105,9 @@ export const AddEvento = () => {
 
                 <button type="submit">Cadastrar</button>
             </form>
+            </Container>
 
-
-        </div>
+        </>
 
     );
 }
