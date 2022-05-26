@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import api from '../../config/configApi';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, Redirect } from "react-router-dom";
-import {Container } from '../../styles/custom'
+import { Container } from '../../styles/custom'
+import { Button, Form, Alert, Row, Col } from 'react-bootstrap';
+import Header from '../../components/Header';
+import "../../styles/forms/index.css"
 
 export const AddEvento = () => {
 
@@ -53,58 +56,87 @@ export const AddEvento = () => {
     }
     return (
         <>
-        <Container>
-            <Link to="/">Voltar</Link>
-            <h1>Cadastrar Eventos</h1>
+            <Header />
+            <Container>
+                <div class="topo">
+                    <h1>Cadastrar Evento</h1>
 
-            {status.type === 'error' ? <p style={{color: "#ff0000"}}>{status.mensagem}</p> : ""}
-            {status.type === 'success' ?
-                <Redirect to={{
-                    pathname: '/',
-                    state: {
-                        type: "success",
-                        mensagem: status.mensagem
-                    }
-                }} />
+                </div>
 
-                : ""}
+                {status.type === 'error' ? <p style={{ color: "#ff0000" }}>{status.mensagem}</p> : ""}
+                {status.type === 'success' ?
+                    <Redirect to={{
+                        pathname: '/',
+                        state: {
+                            type: "success",
+                            mensagem: status.mensagem
+                        }
+                    }} />
 
-            <form onSubmit={addEvento}>
-                <label>Status Evento: </label>
-                <select name="status_evento" onChange={valueInput}>
-                    <option>Selecione</option>
-                    <option value="Ativo">Ativo</option>
-                    <option value="Resolvido">Resolvido</option>
-                    <option value="Sem Info">Sem Info</option>
-                </select><br /><br />
+                    : ""}
+                <div className="container-form">
+                    <Form className="form-default" onSubmit={addEvento}>
 
-                <label>Cidade: </label>
-                <input type="text" name="cidade_evento" placeholder="Cidade" onChange={valueInput} /><br /><br />
+                        <Row className="g-2">
+                            <Col xs="4">
+                                <Form.Label>Status Evento: </Form.Label>
+                                <Form.Select name="status_evento" onChange={valueInput} className="mb-1">
+                                    <option>Selecione</option>
+                                    <option value="Ativo">Ativo</option>
+                                    <option value="Resolvido">Resolvido</option>
+                                    <option value="Sem Info">Sem Info</option>
+                                </Form.Select>
+                            </Col>
+                        </Row>
+                        <Form.Group className="mb-2" controlId="formBasicText">
+                            <Form.Label id="cidadeValidation" for="cidadeValidation">Cidade:</Form.Label>
+                            <Form.Control type="text" name="cidade_evento" placeholder="Cidade Evento" onChange={valueInput} required />
+                        </Form.Group>
 
-                <label>Ponto: </label>
-                <input type="text" name="ponto_evento" placeholder="Ponto" onChange={valueInput} /><br /><br />
+                        <Form.Group className="mb-2" controlId="formBasicText">
+                            <Form.Label for="pontoValidation">Ponto: </Form.Label>
+                            <Form.Control id="pontoValidation" type="text" name="ponto_evento" placeholder="Ponto" onChange={valueInput} required />
+                        </Form.Group>
 
-                <label>Energia: </label>
-                <input type="text" name="energia_evento" placeholder="Evento" onChange={valueInput} /><br /><br />
+                        <Form.Group className="mb-2" controlId="formBasicText">
+                            <Form.Label for="pontoValidation">Energia: </Form.Label>
+                            <Form.Control id="pontoValidation" type="text" name="energia_evento" placeholder="Evento" onChange={valueInput} required />
+                        </Form.Group>
+                        
+                        <Form.Group className="mb-2" controlId="formBasicText">
+                            <Form.Label  for="energiaValidation">Endereço: </Form.Label>
+                            <Form.Control id="energiaValidation" type="text" name="endereco_evento" placeholder="Rua Brasil, 595, Centro" onChange={valueInput} required />
+                        </Form.Group>
 
-                <label>Endereço: </label>
-                <input type="text" name="endereco_evento" placeholder="Endereço" onChange={valueInput} /><br /><br />
+                        <Form.Group className="mb-2" controlId="formBasicText">
+                            <Form.Label for="afetamentoValidation">Clientes afetados: </Form.Label>
+                            <Form.Control id="afetamentoValidation" type="text" name="afeta_evento" placeholder="30 clientes" onChange={valueInput} required />
+                        </Form.Group>
 
-                <label>Afetamento: </label>
-                <input type="text" name="afeta_evento" placeholder="Afetamento" onChange={valueInput} /><br /><br />
+                        <Row className="g-2">
+                            <Col>
+                                <Form.Group className="mb-2" controlId="formBasicText">
+                                    <Form.Label for="dataValidation">Data do Evento: </Form.Label>
+                                    <Form.Control id="dataValidation" type="datetime-local" name="data_evento" placeholder="Data" onChange={valueInput} required/>
+                                </Form.Group>
+                            </Col>
+                            <Col>   
+                            <Form.Group className="mb-3" controlId="formBasicText">
+                                <Form.Label for="previsaoValidation">Previsao: </Form.Label>
+                                <Form.Control id="previsaoValidation" type="datetime-local" name="previsao_evento" placeholder="Previsão" onChange={valueInput} required/>
+                            </Form.Group>
+                            </Col>
+                        </Row>
+                        
+                        <Form.Group className="mb-2" controlId="formBasicText">
+                            <Form.Label for="protocoloValidation">Protocolo: </Form.Label>
+                            <Form.Control id="protocoloValidation"  type="text" name="protocolo_evento" placeholder="Protocolo" onChange={valueInput} required/>
+                        </Form.Group>
+                        
+                        <Button variant='success' type="submit">Cadastrar</Button>
+                    </Form>
+                </div>
 
-                <label>Data do Evento: </label>
-                <input type="datetime-local" name="data_evento" placeholder="Data" onChange={valueInput} /><br /><br />
-
-                <label>Protocolo: </label>
-                <input type="text" name="protocolo_evento" placeholder="Protocolo" onChange={valueInput} /><br /><br />
-
-                <label>Previsao: </label>
-                <input type="datetime-local" name="previsao_evento" placeholder="Previsão" onChange={valueInput} /><br /><br />
-
-
-                <button type="submit">Cadastrar</button>
-            </form>
             </Container>
 
         </>

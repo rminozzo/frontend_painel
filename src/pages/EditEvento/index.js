@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
-
+import moment from 'moment';
 import { Link,Redirect } from 'react-router-dom';
 import api from '../../config/configApi';
+import {Container } from '../../styles/custom'
+import { Button, Form, Alert, Row, Col } from 'react-bootstrap';
+import Header from '../../components/Header';
+import "../../styles/forms/index.css"
 
 export const EditEvento = (props) => {
 
@@ -94,65 +98,89 @@ export const EditEvento = (props) => {
     }, [id_evento])
 
     return (
-        <div>
+        <>
+        <Header />
+            <Container>
+                <div class="topo">
+                    <h1>Editar Evento Evento</h1>
 
-            {status.type === 'warning' ? 
-            <Redirect to={{
-                pathname: '/',
-                state: {
-                    type: "error",
-                    mensagem: status.mensagem
-                }
-            }} /> : ""}
+                </div>
 
-            {status.type === 'success' ? <Redirect to={{
-                pathname: '/',
-                state: {
-                    type: "success",
-                    mensagem: status.mensagem
-                }
-            }} /> : ""}
-            {status.type === 'error' ? <p style={{color: "#ff0000"}}>{status.mensagem}</p> : ""}
+                {status.type === 'error' ? <p style={{ color: "#ff0000" }}>{status.mensagem}</p> : ""}
+                {status.type === 'success' ?
+                    <Redirect to={{
+                        pathname: '/',
+                        state: {
+                            type: "success",
+                            mensagem: status.mensagem
+                        }
+                    }} />
 
-            <Link to={"/"}>Dashboard</Link>
-            <h1>Editar Evento </h1>
+                    : ""}
+                <div className="container-form">
+                    <Form className="form-default" onSubmit={editUser}>
 
-            <form onSubmit={editUser}>
-                <label>Status Evento: </label>
-                <select name="status_evento" onChange={e => setStatus_evento(e.target.value)}>
-                    <option>Selecione</option>
-                    <option value="Ativo">Ativo</option>
-                    <option value="Resolvido">Resolvido</option>
-                    <option value="Sem Info">Sem Info</option>
-                </select><br /><br />
+                        <Row className="g-2">
+                            <Col xs="4">
+                                <Form.Label>Status Evento: </Form.Label>
+                                <Form.Select name="status_evento" onChange={e => setStatus_evento(e.target.value)} className="mb-1">
+                                    <option>Selecione</option>
+                                    <option value="Ativo">Ativo</option>
+                                    <option value="Resolvido">Resolvido</option>
+                                    <option value="Sem Info">Sem Info</option>
+                                </Form.Select>
+                            </Col>
+                        </Row>
+                        <Form.Group className="mb-2" controlId="formBasicText">
+                            <Form.Label id="cidadeValidation" for="cidadeValidation">Cidade:</Form.Label>
+                            <Form.Control type="text" name="cidade_evento" placeholder="Cidade Evento" value={cidade_evento} onChange={text => setCidade_evento(text.target.value)} required />
+                        </Form.Group>
 
-                <label>Cidade: </label>
-                <input type="text" name="cidade_evento" placeholder="Cidade" value={cidade_evento} onChange={text => setCidade_evento(text.target.value)} /><br /><br />
+                        <Form.Group className="mb-2" controlId="formBasicText">
+                            <Form.Label for="pontoValidation">Ponto: </Form.Label>
+                            <Form.Control id="pontoValidation" type="text" name="ponto_evento" placeholder="Ponto" value={ponto_evento} onChange={text => setPonto_evento(text.target.value)} required />
+                        </Form.Group>
 
-                <label>Ponto: </label>
-                <input type="text" name="ponto_evento" placeholder="Ponto" value={ponto_evento} onChange={text => setPonto_evento(text.target.value)} /><br /><br />
+                        <Form.Group className="mb-2" controlId="formBasicText">
+                            <Form.Label for="pontoValidation">Energia: </Form.Label>
+                            <Form.Control id="pontoValidation" type="text" name="energia_evento" placeholder="Evento" value={energia_evento} onChange={text => setEnergia_evento(text.target.value)} required />
+                        </Form.Group>
+                        
+                        <Form.Group className="mb-2" controlId="formBasicText">
+                            <Form.Label  for="energiaValidation">Endereço: </Form.Label>
+                            <Form.Control id="energiaValidation" type="text" name="endereco_evento" placeholder="Rua Brasil, 595, Centro" value={endereco_evento} onChange={text => setEndereco_evento(text.target.value)} required />
+                        </Form.Group>
 
-                <label>Energia: </label>
-                <input type="text" name="energia_evento" placeholder="Evento" value={energia_evento} onChange={text => setEnergia_evento(text.target.value)} /><br /><br />
+                        <Form.Group className="mb-2" controlId="formBasicText">
+                            <Form.Label for="afetamentoValidation">Clientes afetados: </Form.Label>
+                            <Form.Control id="afetamentoValidation" type="text" name="afeta_evento" placeholder="30 clientes" value={afeta_evento} onChange={text => setAfeta_evento(text.target.value)} required />
+                        </Form.Group>
 
-                <label>Endereço: </label>
-                <input type="text" name="endereco_evento" placeholder="Endereço" value={endereco_evento} onChange={text => setEndereco_evento(text.target.value)} /><br /><br />
+                        <Row className="g-2">
+                            <Col>
+                                <Form.Group className="mb-2" controlId="formBasicText">
+                                    <Form.Label for="dataValidation">Data do Evento: </Form.Label>
+                                    <Form.Control id="dataValidation"  name="data_evento" type="text" placeholder="Data" value={moment(data_evento).format("DD/MM/YYYY HH:mm")} onChange={text => setData_evento(text.target.value)} required/>
+                                </Form.Group>
+                            </Col>
+                            <Col>   
+                            <Form.Group className="mb-3" controlId="formBasicText">
+                                <Form.Label for="previsaoValidation">Previsao: </Form.Label>
+                                <Form.Control id="previsaoValidation"  name="previsao_evento" type="datetime-local"  placeholder="Previsão" value={previsao_evento} onChange={text => setPrevisao_evento(text.target.value)} required/>
+                            </Form.Group>
+                            </Col>
+                        </Row>
+                        
+                        <Form.Group className="mb-2" controlId="formBasicText">
+                            <Form.Label for="protocoloValidation">Protocolo: </Form.Label>
+                            <Form.Control id="protocoloValidation"  type="text" name="protocolo_evento" placeholder="Protocolo" value={protocolo_evento} onChange={text => setProtocolo_evento(text.target.value)} required/>
+                        </Form.Group>
+                            <Button variant='success' type="submit">Cadastrar</Button>{" "}{" "}
+                            <Link to={"/"}><Button>Voltar</Button></Link>
+                    </Form>
+                </div>
 
-                <label>Afetamento: </label>
-                <input type="text" name="afeta_evento" placeholder="Afetamento" value={afeta_evento} onChange={text => setAfeta_evento(text.target.value)}/><br /><br />
-
-                <label>Data do Evento: </label>
-                <input type="text" name="data_evento" placeholder="Data" value={data_evento} onChange={text => setData_evento(text.target.value)} /><br /><br />
-
-                <label>Protocolo: </label>
-                <input type="text" name="protocolo_evento" placeholder="Protocolo" value={protocolo_evento} onChange={text => setProtocolo_evento(text.target.value)} /><br /><br />
-
-                <label>Previsao: </label>
-                <input type="datetime-local" name="previsao_evento" placeholder="Previsão" value={previsao_evento} onChange={text => setPrevisao_evento(text.target.value)} /><br /><br />
-
-
-                <button type="submit">Editar</button>
-            </form>
-        </div>
+            </Container>
+        </>
     )
 }
