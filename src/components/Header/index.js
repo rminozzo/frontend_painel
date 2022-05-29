@@ -7,7 +7,7 @@ import {Container } from '../../styles/custom'
      return(
         <Navbar bg="dark" >
             <Container>
-            <Navbar.Brand href="#home">
+            <Navbar.Brand href="/">
                 <img
                 src="/images/adyltelecom-branco.png"
                 width="95"

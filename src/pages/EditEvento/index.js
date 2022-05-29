@@ -123,7 +123,7 @@ export const EditEvento = (props) => {
                         <Row className="g-2">
                             <Col xs="4">
                                 <Form.Label>Status Evento: </Form.Label>
-                                <Form.Select name="status_evento" onChange={e => setStatus_evento(e.target.value)} className="mb-1">
+                                <Form.Select name="status_evento" value={status_evento} onChange={e => setStatus_evento(e.target.value)} className="mb-1">
                                     <option>Selecione</option>
                                     <option value="Ativo">Ativo</option>
                                     <option value="Resolvido">Resolvido</option>
@@ -147,7 +147,7 @@ export const EditEvento = (props) => {
                         </Form.Group>
                         
                         <Form.Group className="mb-2" controlId="formBasicText">
-                            <Form.Label  for="energiaValidation">Endereço: </Form.Label>
+                            <Form.Label   for="energiaValidation">Endereço: </Form.Label>
                             <Form.Control id="energiaValidation" type="text" name="endereco_evento" placeholder="Rua Brasil, 595, Centro" value={endereco_evento} onChange={text => setEndereco_evento(text.target.value)} required />
                         </Form.Group>
 
@@ -175,7 +175,7 @@ export const EditEvento = (props) => {
                             <Form.Label for="protocoloValidation">Protocolo: </Form.Label>
                             <Form.Control id="protocoloValidation"  type="text" name="protocolo_evento" placeholder="Protocolo" value={protocolo_evento} onChange={text => setProtocolo_evento(text.target.value)} required/>
                         </Form.Group>
-                            <Button variant='success' type="submit">Cadastrar</Button>{" "}{" "}
+                            <Button variant='warning' type="submit">Editar</Button>{" "}{" "}
                             <Link to={"/"}><Button>Voltar</Button></Link>
                     </Form>
                 </div>

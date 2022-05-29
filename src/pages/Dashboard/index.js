@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import api from '../../config/configApi';
-import {Container } from '../../styles/custom'
+import { Container } from '../../styles/custom'
 import '../../index.css'
-import { Table, Button, Modal} from 'react-bootstrap';
+import { Table, Button, Modal, Alert } from 'react-bootstrap';
 import { faEdit, faEye, faPlusSquare, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import  Header  from '../../components/Header';
+import Header from '../../components/Header';
 
 export const Dashboard = () => {
 
     const { state } = useLocation();
 
     const [data, setData] = useState([]);
+    const [data2, setData2] = useState('');
     const [show, setShow] = useState(false);
 
     const [status, setStatus] = useState({
@@ -22,10 +23,13 @@ export const Dashboard = () => {
     });
 
     const handleClose = () => setShow(false);
+    const handleClose2 = () => setShow(false);
+
 
     const handleShow = () => setShow(true);
+    const handleShow2 = () => setShow(true);
 
-    const getEvento = async () => {
+    const getEventos = async () => {
         await api.get("/evento/listar-todos")
 
             .then((response) => {
@@ -48,9 +52,7 @@ export const Dashboard = () => {
     }
 
     useEffect(() => {
-        getEvento();
-
-
+        getEventos();
     }, []);
 
     const deleteEvento = async (idEvento) => {
@@ -84,79 +86,128 @@ export const Dashboard = () => {
     }
 
 
+    const getEvento = async (idEvento) => {
+
+        await api.get("/evento/evento/" + idEvento)
+            .then((response) => {
+
+                if (response.data.evento) {
+                    console.log(response.data)
+                    setData2(response.data.evento)
+                    handleShow2();
+                } else {
+                    setStatus({
+                        type: 'error',
+                        mensagem: "Erro: Evento não encontrado"
+                    });
+                }
+            }).catch((err) => {
+                if (err.response) {
+                    setStatus({
+                        type: 'error',
+                        mensagem: err.response.data.mensagem
+                    });
+                } else {
+                    setStatus({
+                        type: 'error',
+                        mensagem: "Erro, tente mais tarde!"
+                    });
+                }
+            })
+    }
+
+
+
+
     return (
-        
+
         <>
-        <Header/>
-        
-        <Container>
-        
-            <Link to={"/add-evento/"}><Button variant="success" to="/add-evento" ><FontAwesomeIcon icon={faPlusSquare} /> Cadastrar Evento</Button><br /></Link>
-            <hr></hr>
+            <Header />
 
-            <h1>Dashboard</h1>
+            <Container>
 
-            {status.type === 'error' ? <p style={{ color: "#ff0000" }}>{status.mensagem}</p> : ""}
-            {status.type === 'success' ? <p style={{ color: "green" }}>{status.mensagem}</p> : ""}
+                <Link to={"/add-evento/"}><Button variant="success" to="/add-evento" ><FontAwesomeIcon icon={faPlusSquare} /> Cadastrar Evento</Button><br /></Link>
+                <hr></hr>
+
+                <h1>Dashboard</h1>
+
+                {status.type === 'error' ? <Alert variant="danger">{status.mensagem}</Alert> : ""}
+                {status.type === 'success' ? <Alert variant="success">{status.mensagem}</Alert> : ""}
 
 
-            <Table
-                bordered size="sm" variant="dark" >
-                <thead>
-                    <tr>
-                        <th>Cidade</th>
-                        <th>Status</th>
-                        <th>Hora Evento</th>
-                        <th>Previsão</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {Array.isArray(data) && data.map(listar_todos => (
-                        <tr key={listar_todos.id_evento}>
+                <Table
+                    bordered size="sm" variant="dark" >
+                    <thead>
+                        <tr>
+                            <th>Cidade</th>
+                            <th>Status</th>
+                            <th>Hora Evento</th>
+                            <th>Previsão</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Array.isArray(data) && data.map(listar_todos => (
+                            <tr key={listar_todos.id_evento}>
 
-                            <td>{listar_todos.cidade_evento}</td>
-                            <td style={{ background: listar_todos.status_evento === 'Ativo' ? '#FF0000' : listar_todos.status_evento === 'Resolvido' ? '#56b85c' : '#999' }}>{listar_todos.status_evento}
-                                {/*<span className='badge' style={{background: listar_todos.status_evento === 'Ativo' ? '#FF0000' : listar_todos.status_evento === 'Resolvido' ? '#56b85c' : '#999'}}>
+                                <td>{listar_todos.cidade_evento}</td>
+                                <td style={{ background: listar_todos.status_evento === 'Ativo' ? '#cd2f33' : listar_todos.status_evento === 'Resolvido' ? '#56b85c' : '#999' }}>{listar_todos.status_evento}
+                                    {/*<span className='badge' style={{background: listar_todos.status_evento === 'Ativo' ? '#FF0000' : listar_todos.status_evento === 'Resolvido' ? '#56b85c' : '#999'}}>
                                 {listar_todos.status_evento}
                             </span>*/}
-                            </td>
-                            <td>{moment(listar_todos.data_evento).format("DD/MM/YYYY HH:mm")}</td>
-                            <td>{moment(listar_todos.previsao_evento).format("DD/MM/YYYY HH:mm")}</td>
+                                </td>
+                                <td>{moment(listar_todos.data_evento).format("DD/MM/YYYY HH:mm")}</td>
+                                <td>{moment(listar_todos.previsao_evento).format("DD/MM/YYYY HH:mm")}</td>
 
-                            <td>
-                                <Link to={"/view-evento/" + listar_todos.id_evento}><Button variant="primary" type="button" ><FontAwesomeIcon icon={faEye} /> Ver Detalhes</Button></Link>{" "}
-                                <Link to={"/edit-evento/" + listar_todos.id_evento}><Button variant="warning" type="button" ><FontAwesomeIcon icon={faEdit} /> Editar</Button></Link>{" "}
-                                <Button variant="danger" type="button" onClick={handleShow} ><FontAwesomeIcon icon={faTrashAlt} /> Apagar</Button>
+                                <td>
+                                    {/*<Link to={"/view-evento/" + listar_todos.id_evento}>*/}<Button variant="primary" type="button" onClick={() => getEvento(listar_todos.id_evento)}  ><FontAwesomeIcon icon={faEye} /> Ver Detalhes</Button>{" "}
+                                    <Link to={"/edit-evento/" + listar_todos.id_evento}><Button variant="warning" type="button" ><FontAwesomeIcon icon={faEdit} /> Editar</Button></Link>{" "}
+                                    <Button variant="danger" type="button" onClick={handleShow} ><FontAwesomeIcon icon={faTrashAlt} /> Apagar</Button>
 
-                                <Modal show={show} onHide={handleClose} >
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Apagar Evento</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>Você realmente deseja apagar o Evento?</Modal.Body>
-                                    <Modal.Footer>
-                                        <Button variant="secondary" onClick={handleClose}>
-                                            Cancelar
-                                        </Button>
-                                        <Button variant="danger" type="button" onClick={() => deleteEvento(listar_todos.id_evento)}>
-                                            Confirmar
-                                        </Button>
-                                    </Modal.Footer>
-                                </Modal>
-                            </td>
-                        </tr>
-                    ))}
+                                    <Modal show={show} onHide={handleClose} >
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>Apagar Evento</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>Você realmente deseja apagar o evento?</Modal.Body>
+                                        <Modal.Footer>
+                                            <Button variant="secondary" onClick={handleClose}>Cancelar</Button>
+                                            <Button variant="danger" type="button" onClick={() => deleteEvento(listar_todos.id_evento)}> Confirmar </Button>
+                                        </Modal.Footer>
+                                    </Modal>
 
-                </tbody>
 
-            </Table>
+                                </td>
+                            </tr>
+                        ))}
+
+                    </tbody>
+
+                </Table>
 
             </Container>
-            
 
+            <Modal show={show} onHide={handleClose2} >
+                <Modal.Header closeButton>
+                    <Modal.Title>Detalhes do Evento</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <span><b>Status:</b> {data2.status_evento}</span><br />
+                    <span><b>Cidade:</b> {data2.cidade_evento}</span><br />
+                    <span><b>Ponto:</b> {data2.ponto_evento}</span><br />
+                    <span><b>Energia:</b> {data2.energia_evento}</span><br />
+                    <span><b>Endereço:</b> {data2.endereco_evento}</span><br />
+                    <span><b>Afeta:</b> {data2.afeta_evento}</span><br />
+                    <span><b>Data:</b> {moment(data2.data_evento).format("DD/MM/YYYY HH:mm")}</span><br />
+                    <span><b>Protocolo:</b> {data2.protocolo_evento}</span><br />
+                    <span><b>Previsão:</b> {moment(data2.previsao_evento).format("DD/MM/YYYY HH:mm")}</span><br />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="danger" type="button" onClick={handleClose2}> Fechar </Button>
+                </Modal.Footer>
+            </Modal>
 
         </>
 
-        
+
     )
 }

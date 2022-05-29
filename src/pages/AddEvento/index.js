@@ -63,7 +63,7 @@ export const AddEvento = () => {
 
                 </div>
 
-                {status.type === 'error' ? <p style={{ color: "#ff0000" }}>{status.mensagem}</p> : ""}
+                {status.type === 'error' ? <Alert variant="danger">{status.mensagem}</Alert> : ""}
                 {status.type === 'success' ?
                     <Redirect to={{
                         pathname: '/',
@@ -74,6 +74,7 @@ export const AddEvento = () => {
                     }} />
 
                     : ""}
+
                 <div className="container-form">
                     <Form className="form-default" onSubmit={addEvento}>
 
@@ -88,7 +89,7 @@ export const AddEvento = () => {
                                 </Form.Select>
                             </Col>
                         </Row>
-                        <Form.Group className="mb-2" controlId="formBasicText">
+                        <Form.Group className="mb-2" controlId="formBasicText" >
                             <Form.Label id="cidadeValidation" for="cidadeValidation">Cidade:</Form.Label>
                             <Form.Control type="text" name="cidade_evento" placeholder="Cidade Evento" onChange={valueInput} required />
                         </Form.Group>
@@ -102,9 +103,9 @@ export const AddEvento = () => {
                             <Form.Label for="pontoValidation">Energia: </Form.Label>
                             <Form.Control id="pontoValidation" type="text" name="energia_evento" placeholder="Evento" onChange={valueInput} required />
                         </Form.Group>
-                        
+
                         <Form.Group className="mb-2" controlId="formBasicText">
-                            <Form.Label  for="energiaValidation">Endereço: </Form.Label>
+                            <Form.Label for="energiaValidation">Endereço: </Form.Label>
                             <Form.Control id="energiaValidation" type="text" name="endereco_evento" placeholder="Rua Brasil, 595, Centro" onChange={valueInput} required />
                         </Form.Group>
 
@@ -117,23 +118,24 @@ export const AddEvento = () => {
                             <Col>
                                 <Form.Group className="mb-2" controlId="formBasicText">
                                     <Form.Label for="dataValidation">Data do Evento: </Form.Label>
-                                    <Form.Control id="dataValidation" type="datetime-local" name="data_evento" placeholder="Data" onChange={valueInput} required/>
+                                    <Form.Control id="dataValidation" type="datetime-local" name="data_evento" placeholder="Data" onChange={valueInput} required />
                                 </Form.Group>
                             </Col>
-                            <Col>   
-                            <Form.Group className="mb-3" controlId="formBasicText">
-                                <Form.Label for="previsaoValidation">Previsao: </Form.Label>
-                                <Form.Control id="previsaoValidation" type="datetime-local" name="previsao_evento" placeholder="Previsão" onChange={valueInput} required/>
-                            </Form.Group>
+                            <Col>
+                                <Form.Group className="mb-3" controlId="formBasicText">
+                                    <Form.Label for="previsaoValidation">Previsao: </Form.Label>
+                                    <Form.Control id="previsaoValidation" type="datetime-local" name="previsao_evento" placeholder="Previsão" onChange={valueInput} required />
+                                </Form.Group>
                             </Col>
                         </Row>
-                        
+
                         <Form.Group className="mb-2" controlId="formBasicText">
                             <Form.Label for="protocoloValidation">Protocolo: </Form.Label>
-                            <Form.Control id="protocoloValidation"  type="text" name="protocolo_evento" placeholder="Protocolo" onChange={valueInput} required/>
+                            <Form.Control id="protocoloValidation" type="text" name="protocolo_evento" placeholder="Protocolo" onChange={valueInput} required />
                         </Form.Group>
-                        
-                        <Button variant='success' type="submit">Cadastrar</Button>
+
+                        <Button variant='success' type="submit">Cadastrar</Button>{" "}{" "}
+                        <Link to={"/"}><Button>Voltar</Button></Link>
                     </Form>
                 </div>
 
