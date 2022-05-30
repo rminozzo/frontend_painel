@@ -8,6 +8,7 @@ import { faEdit, faEye, faPlusSquare, faTrashAlt } from '@fortawesome/free-solid
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 
 export const Dashboard = () => {
 
@@ -16,6 +17,7 @@ export const Dashboard = () => {
     const [data, setData] = useState([]);
     const [data2, setData2] = useState('');
     const [show, setShow] = useState(false);
+    const [show2, setShow2] = useState(false);
 
     const [status, setStatus] = useState({
         type: state ? state.type : "",
@@ -23,11 +25,11 @@ export const Dashboard = () => {
     });
 
     const handleClose = () => setShow(false);
-    const handleClose2 = () => setShow(false);
+    const handleClose2 = () => setShow2(false);
 
 
     const handleShow = () => setShow(true);
-    const handleShow2 = () => setShow(true);
+    const handleShow2 = () => setShow2(true);
 
     const getEventos = async () => {
         await api.get("/evento/listar-todos")
@@ -63,7 +65,7 @@ export const Dashboard = () => {
                     type: 'success',
                     mensagem: response.data.mensagem
                 });
-                getEvento();
+                getEventos();
                 handleClose();
 
             }).catch((err) => {
@@ -183,10 +185,10 @@ export const Dashboard = () => {
                     </tbody>
 
                 </Table>
-
+                
             </Container>
-
-            <Modal show={show} onHide={handleClose2} >
+            <Footer/>
+            <Modal show={show2} onHide={handleClose2} >
                 <Modal.Header closeButton>
                     <Modal.Title>Detalhes do Evento</Modal.Title>
                 </Modal.Header>
@@ -205,8 +207,9 @@ export const Dashboard = () => {
                     <Button variant="danger" type="button" onClick={handleClose2}> Fechar </Button>
                 </Modal.Footer>
             </Modal>
-
+            
         </>
+        
 
 
     )

@@ -3,8 +3,10 @@ import api from '../../config/configApi';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, Redirect } from "react-router-dom";
 import { Container } from '../../styles/custom'
+
 import { Button, Form, Alert, Row, Col } from 'react-bootstrap';
 import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import "../../styles/forms/index.css"
 
 export const AddEvento = () => {
@@ -80,8 +82,8 @@ export const AddEvento = () => {
 
                         <Row className="g-2">
                             <Col xs="4">
-                                <Form.Label>Status Evento: </Form.Label>
-                                <Form.Select name="status_evento" onChange={valueInput} className="mb-1">
+                                <Form.Label for="statusValidation">Status Evento: </Form.Label>
+                                <Form.Select id="statusValidation" name="status_evento" onChange={valueInput} className="mb-1" required autocomplete="off">
                                     <option>Selecione</option>
                                     <option value="Ativo">Ativo</option>
                                     <option value="Resolvido">Resolvido</option>
@@ -90,8 +92,8 @@ export const AddEvento = () => {
                             </Col>
                         </Row>
                         <Form.Group className="mb-2" controlId="formBasicText" >
-                            <Form.Label id="cidadeValidation" for="cidadeValidation">Cidade:</Form.Label>
-                            <Form.Control type="text" name="cidade_evento" placeholder="Cidade Evento" onChange={valueInput} required />
+                            <Form.Label  for="cidadeValidation" >Cidade:</Form.Label>
+                            <Form.Control  id="cidadeValidation" type="text" name="cidade_evento" placeholder="Cidade Evento" onChange={valueInput} required />
                         </Form.Group>
 
                         <Form.Group className="mb-2" controlId="formBasicText">
@@ -138,9 +140,10 @@ export const AddEvento = () => {
                         <Link to={"/"}><Button>Voltar</Button></Link>
                     </Form>
                 </div>
-
+                
+                
             </Container>
-
+            
         </>
 
     );

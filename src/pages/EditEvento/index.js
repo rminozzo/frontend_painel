@@ -16,6 +16,8 @@ export const EditEvento = (props) => {
 
     //const [data, setData] = useState('');
 
+    
+
     const editUser = async e => {
         e.preventDefault();
 
@@ -102,11 +104,11 @@ export const EditEvento = (props) => {
         <Header />
             <Container>
                 <div class="topo">
-                    <h1>Editar Evento Evento</h1>
+                    <h1>Editar Evento</h1>
 
                 </div>
 
-                {status.type === 'error' ? <p style={{ color: "#ff0000" }}>{status.mensagem}</p> : ""}
+                {status.type === 'error' ? <Alert variant="danger">{status.mensagem}</Alert> : ""}
                 {status.type === 'success' ?
                     <Redirect to={{
                         pathname: '/',
@@ -160,13 +162,13 @@ export const EditEvento = (props) => {
                             <Col>
                                 <Form.Group className="mb-2" controlId="formBasicText">
                                     <Form.Label for="dataValidation">Data do Evento: </Form.Label>
-                                    <Form.Control id="dataValidation"  name="data_evento" type="text" placeholder="Data" value={moment(data_evento).format("DD/MM/YYYY HH:mm")} onChange={text => setData_evento(text.target.value)} required/>
+                                    <Form.Control id="dataValidation"  name="data_evento" type="text" placeholder="Data" value={moment(data_evento).format("DD/MM/YYYY HH:mm")} onChange={text => setData_evento(text.target.value)} disabled required />
                                 </Form.Group>
                             </Col>
                             <Col>   
                             <Form.Group className="mb-3" controlId="formBasicText">
                                 <Form.Label for="previsaoValidation">Previsao: </Form.Label>
-                                <Form.Control id="previsaoValidation"  name="previsao_evento" type="datetime-local"  placeholder="Previsão" value={previsao_evento} onChange={text => setPrevisao_evento(text.target.value)} required/>
+                                <Form.Control id="previsaoValidation"  name="previsao_evento" type="text" placeholder="Previsão" value={moment(previsao_evento).format("DD/MM/YYYY HH:mm")} onChange={text => setPrevisao_evento(text.target.value)} required/>
                             </Form.Group>
                             </Col>
                         </Row>
@@ -175,7 +177,7 @@ export const EditEvento = (props) => {
                             <Form.Label for="protocoloValidation">Protocolo: </Form.Label>
                             <Form.Control id="protocoloValidation"  type="text" name="protocolo_evento" placeholder="Protocolo" value={protocolo_evento} onChange={text => setProtocolo_evento(text.target.value)} required/>
                         </Form.Group>
-                            <Button variant='warning' type="submit">Editar</Button>{" "}{" "}
+                            <Button variant='success' type="submit">Salvar</Button>{" "}{" "}
                             <Link to={"/"}><Button>Voltar</Button></Link>
                     </Form>
                 </div>
