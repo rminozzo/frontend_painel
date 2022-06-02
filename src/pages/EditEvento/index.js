@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import moment from 'moment';
-import { Link,Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import api from '../../config/configApi';
-import {Container } from '../../styles/custom'
+import { Container } from '../../styles/custom'
 import { Button, Form, Alert, Row, Col } from 'react-bootstrap';
 import Header from '../../components/Header';
 import "../../styles/forms/index.css"
@@ -16,46 +16,49 @@ export const EditEvento = (props) => {
 
     //const [data, setData] = useState('');
 
-    
+
 
     const editUser = async e => {
         e.preventDefault();
 
-        await api.put("/evento/evento", {id_evento, cidade_evento, status_evento, 
-                                    endereco_evento, ponto_evento, energia_evento,
-                                    afeta_evento, data_evento, protocolo_evento, previsao_evento})
-        
-        .then((response) => {
-            setStatus({
-                type: 'success',
-                mensagem: response.data.mensagem
-            });
+        await api.put("/evento/evento", {
+            id_evento, cidade_evento, status_evento,
+            endereco_evento, ponto_evento, energia_evento,
+            afeta_evento, data_evento, protocolo_evento, previsao_evento
+        })
 
-        }).catch((err) => {
-            if (err.response) {
+            .then((response) => {
                 setStatus({
-                    type: 'error',
-                    mensagem: err.response.data.mensagem
+                    type: 'success',
+                    mensagem: response.data.mensagem
                 });
-            } else {
-                setStatus({
-                    type: 'error',
-                    mensagem: "Erro, tente mais tarde!"
-                });
+
+            }).catch((err) => {
+                if (err.response) {
+                    setStatus({
+                        type: 'error',
+                        mensagem: err.response.data.mensagem
+                    });
+                } else {
+                    setStatus({
+                        type: 'error',
+                        mensagem: "Erro, tente mais tarde!"
+                    });
+                }
             }
-        }
-    )}
-    
+            )
+    }
 
-    const [cidade_evento, setCidade_evento] = useState ('');    
-    const [status_evento, setStatus_evento] = useState ('');
-    const [endereco_evento, setEndereco_evento] = useState ('');
-    const [ponto_evento, setPonto_evento] = useState ('');
-    const [energia_evento, setEnergia_evento] = useState ('');
-    const [afeta_evento, setAfeta_evento] = useState ('');
-    const [data_evento, setData_evento] = useState ('');
-    const [protocolo_evento, setProtocolo_evento] = useState ('');
-    const [previsao_evento, setPrevisao_evento] = useState ('');
+
+    const [cidade_evento, setCidade_evento] = useState('');
+    const [status_evento, setStatus_evento] = useState('');
+    const [endereco_evento, setEndereco_evento] = useState('');
+    const [ponto_evento, setPonto_evento] = useState('');
+    const [energia_evento, setEnergia_evento] = useState('');
+    const [afeta_evento, setAfeta_evento] = useState('');
+    const [data_evento, setData_evento] = useState('');
+    const [protocolo_evento, setProtocolo_evento] = useState('');
+    const [previsao_evento, setPrevisao_evento] = useState('');
 
     const [id_evento] = useState(props.match.params.id_evento)
     console.log(id_evento)
@@ -101,7 +104,7 @@ export const EditEvento = (props) => {
 
     return (
         <>
-        <Header />
+            <Header />
             <Container>
                 <div class="topo">
                     <h1>Editar Evento</h1>
@@ -119,7 +122,7 @@ export const EditEvento = (props) => {
                     }} />
 
                     : ""}
-                <div className="container-form">
+                <div class="container-form">
                     <Form className="form-default" onSubmit={editUser}>
 
                         <Row className="g-2">
@@ -133,52 +136,52 @@ export const EditEvento = (props) => {
                                 </Form.Select>
                             </Col>
                         </Row>
-                        <Form.Group className="mb-2" controlId="formBasicText">
-                            <Form.Label id="cidadeValidation" for="cidadeValidation">Cidade:</Form.Label>
+                        <Form.Group className="mb-2">
+                            <Form.Label >Cidade:</Form.Label>
                             <Form.Control type="text" name="cidade_evento" placeholder="Cidade Evento" value={cidade_evento} onChange={text => setCidade_evento(text.target.value)} required />
                         </Form.Group>
 
-                        <Form.Group className="mb-2" controlId="formBasicText">
-                            <Form.Label for="pontoValidation">Ponto: </Form.Label>
-                            <Form.Control id="pontoValidation" type="text" name="ponto_evento" placeholder="Ponto" value={ponto_evento} onChange={text => setPonto_evento(text.target.value)} required />
+                        <Form.Group className="mb-2" >
+                            <Form.Label >Ponto: </Form.Label>
+                            <Form.Control type="text" name="ponto_evento" placeholder="Ponto" value={ponto_evento} onChange={text => setPonto_evento(text.target.value)} required />
                         </Form.Group>
 
-                        <Form.Group className="mb-2" controlId="formBasicText">
-                            <Form.Label for="pontoValidation">Energia: </Form.Label>
-                            <Form.Control id="pontoValidation" type="text" name="energia_evento" placeholder="Evento" value={energia_evento} onChange={text => setEnergia_evento(text.target.value)} required />
-                        </Form.Group>
-                        
-                        <Form.Group className="mb-2" controlId="formBasicText">
-                            <Form.Label   for="energiaValidation">Endereço: </Form.Label>
-                            <Form.Control id="energiaValidation" type="text" name="endereco_evento" placeholder="Rua Brasil, 595, Centro" value={endereco_evento} onChange={text => setEndereco_evento(text.target.value)} required />
+                        <Form.Group className="mb-2" >
+                            <Form.Label >Energia: </Form.Label>
+                            <Form.Control type="text" name="energia_evento" placeholder="Evento" value={energia_evento} onChange={text => setEnergia_evento(text.target.value)} required />
                         </Form.Group>
 
-                        <Form.Group className="mb-2" controlId="formBasicText">
-                            <Form.Label for="afetamentoValidation">Clientes afetados: </Form.Label>
-                            <Form.Control id="afetamentoValidation" type="text" name="afeta_evento" placeholder="30 clientes" value={afeta_evento} onChange={text => setAfeta_evento(text.target.value)} required />
+                        <Form.Group className="mb-2" >
+                            <Form.Label>Endereço: </Form.Label>
+                            <Form.Control type="text" name="endereco_evento" placeholder="Rua Brasil, 595, Centro" value={endereco_evento} onChange={text => setEndereco_evento(text.target.value)} required />
+                        </Form.Group>
+
+                        <Form.Group className="mb-2" >
+                            <Form.Label >Clientes afetados: </Form.Label>
+                            <Form.Control type="text" name="afeta_evento" placeholder="30 clientes" value={afeta_evento} onChange={text => setAfeta_evento(text.target.value)} required />
                         </Form.Group>
 
                         <Row className="g-2">
                             <Col>
-                                <Form.Group className="mb-2" controlId="formBasicText">
-                                    <Form.Label for="dataValidation">Data do Evento: </Form.Label>
-                                    <Form.Control id="dataValidation"  name="data_evento" type="text" placeholder="Data" value={moment(data_evento).format("DD/MM/YYYY HH:mm")} onChange={text => setData_evento(text.target.value)} disabled required />
+                                <Form.Group className="mb-2" >
+                                    <Form.Label >Data do Evento: </Form.Label>
+                                    <Form.Control name="data_evento" type="text" placeholder="Data" value={moment(data_evento).format("DD/MM/YYYY HH:mm")} onChange={text => setData_evento(text.target.value)} disabled required />
                                 </Form.Group>
                             </Col>
-                            <Col>   
-                            <Form.Group className="mb-3" controlId="formBasicText">
-                                <Form.Label for="previsaoValidation">Previsao: </Form.Label>
-                                <Form.Control id="previsaoValidation"  name="previsao_evento" type="text" placeholder="Previsão" value={moment(previsao_evento).format("DD/MM/YYYY HH:mm")} onChange={text => setPrevisao_evento(text.target.value)} required/>
-                            </Form.Group>
+                            <Col>
+                                <Form.Group className="mb-3" >
+                                    <Form.Label >Previsao: </Form.Label>
+                                    <Form.Control name="previsao_evento" type="text" placeholder="Previsão" value={moment(previsao_evento).format("DD/MM/YYYY HH:mm")} onChange={text => setPrevisao_evento(text.target.value)} required />
+                                </Form.Group>
                             </Col>
                         </Row>
-                        
-                        <Form.Group className="mb-2" controlId="formBasicText">
-                            <Form.Label for="protocoloValidation">Protocolo: </Form.Label>
-                            <Form.Control id="protocoloValidation"  type="text" name="protocolo_evento" placeholder="Protocolo" value={protocolo_evento} onChange={text => setProtocolo_evento(text.target.value)} required/>
+
+                        <Form.Group className="mb-2">
+                            <Form.Label >Protocolo: </Form.Label>
+                            <Form.Control type="text" name="protocolo_evento" placeholder="Protocolo" value={protocolo_evento} onChange={text => setProtocolo_evento(text.target.value)} required />
                         </Form.Group>
-                            <Button variant='success' type="submit">Salvar</Button>{" "}{" "}
-                            <Link to={"/"}><Button>Voltar</Button></Link>
+                        <Button variant='success' type="submit">Salvar</Button>{" "}{" "}
+                        <Link to={"/"}><Button>Voltar</Button></Link>
                     </Form>
                 </div>
 

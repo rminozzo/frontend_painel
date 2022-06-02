@@ -82,8 +82,8 @@ export const AddEvento = () => {
 
                         <Row className="g-2">
                             <Col xs="4">
-                                <Form.Label for="statusValidation">Status Evento: </Form.Label>
-                                <Form.Select id="statusValidation" name="status_evento" onChange={valueInput} className="mb-1" required autocomplete="off">
+                                <Form.Label >Status Evento: </Form.Label>
+                                <Form.Select name="status_evento" onChange={valueInput} className="mb-1" required>
                                     <option>Selecione</option>
                                     <option value="Ativo">Ativo</option>
                                     <option value="Resolvido">Resolvido</option>
@@ -91,49 +91,49 @@ export const AddEvento = () => {
                                 </Form.Select>
                             </Col>
                         </Row>
-                        <Form.Group className="mb-2" controlId="formBasicText" >
-                            <Form.Label  for="cidadeValidation" >Cidade:</Form.Label>
-                            <Form.Control  id="cidadeValidation" type="text" name="cidade_evento" placeholder="Cidade Evento" onChange={valueInput} required />
+                        <Form.Group className="mb-2" >
+                            <Form.Label>Cidade:</Form.Label>
+                            <Form.Control type="text" name="cidade_evento" placeholder="Cidade Evento" onChange={valueInput} required />
                         </Form.Group>
 
-                        <Form.Group className="mb-2" controlId="formBasicText">
-                            <Form.Label for="pontoValidation">Ponto: </Form.Label>
-                            <Form.Control id="pontoValidation" type="text" name="ponto_evento" placeholder="Ponto" onChange={valueInput} required />
+                        <Form.Group className="mb-2" >
+                            <Form.Label >Ponto: </Form.Label>
+                            <Form.Control size="sm" type="text" name="ponto_evento" placeholder="Ponto" onChange={valueInput} required />
                         </Form.Group>
 
-                        <Form.Group className="mb-2" controlId="formBasicText">
-                            <Form.Label for="pontoValidation">Energia: </Form.Label>
-                            <Form.Control id="pontoValidation" type="text" name="energia_evento" placeholder="Evento" onChange={valueInput} required />
+                        <Form.Group className="mb-2" >
+                            <Form.Label >Energia: </Form.Label>
+                            <Form.Control  type="text" name="energia_evento" placeholder="Evento" onChange={valueInput} required />
                         </Form.Group>
 
-                        <Form.Group className="mb-2" controlId="formBasicText">
-                            <Form.Label for="energiaValidation">Endereço: </Form.Label>
-                            <Form.Control id="energiaValidation" type="text" name="endereco_evento" placeholder="Rua Brasil, 595, Centro" onChange={valueInput} required />
+                        <Form.Group className="mb-2" >
+                            <Form.Label >Endereço: </Form.Label>
+                            <Form.Control type="text" name="endereco_evento" placeholder="Rua Brasil, 595, Centro" onChange={valueInput} required />
                         </Form.Group>
 
-                        <Form.Group className="mb-2" controlId="formBasicText">
-                            <Form.Label for="afetamentoValidation">Clientes afetados: </Form.Label>
-                            <Form.Control id="afetamentoValidation" type="text" name="afeta_evento" placeholder="30 clientes" onChange={valueInput} required />
+                        <Form.Group className="mb-2" >
+                            <Form.Label >Clientes afetados: </Form.Label>
+                            <Form.Control  type="text" name="afeta_evento" placeholder="30 clientes" onChange={valueInput} required />
                         </Form.Group>
 
                         <Row className="g-2">
                             <Col>
-                                <Form.Group className="mb-2" controlId="formBasicText">
-                                    <Form.Label for="dataValidation">Data do Evento: </Form.Label>
-                                    <Form.Control id="dataValidation" type="datetime-local" name="data_evento" placeholder="Data" onChange={valueInput} required />
+                                <Form.Group className="mb-2" >
+                                    <Form.Label >Data do Evento: </Form.Label>
+                                    <Form.Control type="datetime-local" name="data_evento" placeholder="Data" onChange={valueInput} required />
                                 </Form.Group>
                             </Col>
                             <Col>
-                                <Form.Group className="mb-3" controlId="formBasicText">
-                                    <Form.Label for="previsaoValidation">Previsao: </Form.Label>
-                                    <Form.Control id="previsaoValidation" type="datetime-local" name="previsao_evento" placeholder="Previsão" onChange={valueInput} required />
+                                <Form.Group className="mb-3" >
+                                    <Form.Label >Previsao: </Form.Label>
+                                    <Form.Control  type="datetime-local" name="previsao_evento" placeholder="Previsão" onChange={valueInput} required />
                                 </Form.Group>
                             </Col>
                         </Row>
 
-                        <Form.Group className="mb-2" controlId="formBasicText">
-                            <Form.Label for="protocoloValidation">Protocolo: </Form.Label>
-                            <Form.Control id="protocoloValidation" type="text" name="protocolo_evento" placeholder="Protocolo" onChange={valueInput} required />
+                        <Form.Group className="mb-2">
+                            <Form.Label >Protocolo: </Form.Label>
+                            <Form.Control type="text" name="protocolo_evento" placeholder="Protocolo" onChange={valueInput} required />
                         </Form.Group>
 
                         <Button variant='success' type="submit">Cadastrar</Button>{" "}{" "}

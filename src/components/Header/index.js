@@ -10,8 +10,8 @@ import {Container } from '../../styles/custom'
             <Navbar.Brand href="/">
                 <img
                 src="/images/adyltelecom-branco.png"
-                width="95"
-                height="55"
+                width="82"
+                height="50"
                 
                 className="d-inline-block align-top "
                 alt="logo"
