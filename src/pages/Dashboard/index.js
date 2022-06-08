@@ -3,8 +3,8 @@ import moment from 'moment';
 import api from '../../config/configApi';
 import { Container } from '../../styles/custom'
 import '../../index.css'
-import { Table, Button, Modal, Alert, NavDropdown } from 'react-bootstrap';
-import { faEdit, faEye, faPlusSquare, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { Table, Button, Modal, Alert, ButtonToolbar, ButtonGroup } from 'react-bootstrap';
+import { faAlignCenter, faEdit, faEye, faPlusSquare, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Header from '../../components/Header';
@@ -19,6 +19,9 @@ export const Dashboard = () => {
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
 
+    const [page, setPage] = useState("");
+    const [lastPage, setLastpage] = useState("");
+
     const [status, setStatus] = useState({
         type: state ? state.type : "",
         mensagem: state ? state.mensagem : ""
@@ -26,18 +29,42 @@ export const Dashboard = () => {
 
     const handleClose = () => setShow(false);
     const handleClose2 = () => setShow2(false);
-
-
-
     const handleShow2 = () => setShow2(true);
 
-    const getEventos = async () => {
-        await api.get("/evento/listar-todos")
+    const [idDelete, setIdDelete] = useState('');
+
+    ///////ABRE MODAL///////
+    const handleShow = (idEvento) => {
+        setShow(true);
+        setIdDelete(idEvento);
+    }
+
+    const choose = (option) => {
+        if (option === true) {
+            deleteEvento(idDelete);
+
+        } else {
+            handleClose();
+        }
+    }
+
+    ///////LISTAR TODOS OS EVENTOS///////
+
+    const getEventos = async (page) => {
+
+        if (page === undefined) {
+            page = 1;
+        }
+
+        setPage(page);
+
+        await api.get("/evento/listar-todos/" + page)
 
             .then((response) => {
-
                 console.log(response.data);
                 setData(response.data.listar_todos)
+                setLastpage(response.data.lastPage)
+
             }).catch((err) => {
 
                 if (err.response) {
@@ -54,6 +81,7 @@ export const Dashboard = () => {
             })
     }
 
+    ///////EXIBE DETALHES DO EVENTO///////
 
     const getEvento = async (idEvento) => {
 
@@ -84,33 +112,14 @@ export const Dashboard = () => {
             })
     }
 
-    const abreModal = (id) => {
-        setShow(true);
-        console.log(id);
-        setId2(id)
-    }
+    ///////DELETE EVENTO/////////
 
-    const [id2, setId2] = useState('')
+    const deleteEvento = async (idDelete) => {
 
-    const escolhe = (op) =>{
-        if(op === true){
-            console.log(id2);
-            deleteEvento(id2)
-            
-        }else {
-            handleClose();
-        }
-        
-    }
+        console.log(idDelete)
 
-    
+        await api.delete("/evento/evento/" + idDelete)
 
-    const deleteEvento = async (idEvento) => {
-
-        console.log(idEvento)
-        
-        await api.delete("/evento/evento/" + idEvento)
-        
             .then((response) => {
                 setStatus({
                     type: 'success',
@@ -118,27 +127,25 @@ export const Dashboard = () => {
                 });
                 getEventos();
                 handleClose();
- 
+
             }).catch((err) => {
                 if (err.response) {
                     setStatus({
                         type: 'error',
                         mensagem: err.response.data.mensagem
- 
+
                     });
- 
+
                 } else {
                     setStatus({
                         type: 'error',
                         mensagem: "Erro, tente novamente"
- 
+
                     });
- 
+
                 }
             })
     }
-
-
 
 
     useEffect(() => {
@@ -161,8 +168,6 @@ export const Dashboard = () => {
 
                 {status.type === 'error' ? <Alert variant="danger">{status.mensagem}</Alert> : ""}
                 {status.type === 'success' ? <Alert variant="success">{status.mensagem}</Alert> : ""}
-
-
 
 
                 <Table
@@ -192,11 +197,7 @@ export const Dashboard = () => {
                                 <td>
                                     {/*<Link to={"/view-evento/" + listar_todos.id_evento}>*/}<Button variant="primary" type="button" onClick={() => getEvento(listar_todos.id_evento)}  ><FontAwesomeIcon icon={faEye} /> Ver Detalhes</Button>{" "}
                                     <Link to={"/edit-evento/" + listar_todos.id_evento}><Button variant="warning" type="button" ><FontAwesomeIcon icon={faEdit} /> Editar</Button></Link>{" "}
-                                    <Button variant="danger" type="button" onClick={() => abreModal(listar_todos.id_evento)}  ><FontAwesomeIcon icon={faTrashAlt} /> Apagar</Button>
-
-
-
-
+                                    <Button variant="danger" type="button" onClick={() => handleShow(listar_todos.id_evento)}  ><FontAwesomeIcon icon={faTrashAlt} /> Apagar</Button>
                                 </td>
                             </tr>
                         ))}
@@ -204,6 +205,20 @@ export const Dashboard = () => {
                     </tbody>
 
                 </Table>
+                <ButtonToolbar aria-label="Toolbar with button groups" style={faAlignCenter}>
+                    <ButtonGroup className="me-2" aria-label="First group">
+                        {page !== 1 ? <Button type="button" onClick={() => getEventos(1)}>Primeira</Button> : <Button type="button" disabled>Primeira</Button>}{" "}
+
+                        {page !== 1 ? <Button type="button" onClick={() => getEventos(page - 1)}>{page - 1}</Button> : ""}{" "}
+
+                        <Button type="button" disabled>{page}</Button>{" "}
+
+                        {page + 1 <= lastPage ? <Button type="button" onClick={() => getEventos(page + 1)}>{page + 1}</Button> : " "} {" "}
+
+                        {page !== lastPage ? <Button type="button" onClick={() => getEventos(lastPage)}>Ultima</Button> : <Button type="button" disabled>Ultima</Button>}{" "}
+
+                    </ButtonGroup>
+                </ButtonToolbar>
 
             </Container>
             <Footer />
@@ -216,15 +231,15 @@ export const Dashboard = () => {
                 <Modal.Body>Você realmente deseja apagar o evento?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>Cancelar</Button>
-                    <Button variant="danger" id="sim" type="button" onClick={() => escolhe(true)} > Confirmar </Button>
+                    <Button variant="danger" id="sim" type="button" onClick={() => choose(true)} > Confirmar </Button>
                 </Modal.Footer>
             </Modal>
 
 
             {
-            
-                ////////////////////////////////// MODAL 2 /////////////////////////////////
-            
+
+                ////////////////////////////////// MODAL DETALHES EVENTO /////////////////////////////////
+
             }
 
             <Modal show={show2} onHide={handleClose2} >
@@ -248,8 +263,6 @@ export const Dashboard = () => {
             </Modal>
 
         </>
-
-
 
     )
 }

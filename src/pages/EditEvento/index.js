@@ -107,7 +107,7 @@ export const EditEvento = (props) => {
             <Header />
             <Container>
                 <div class="topo">
-                    <h1>Editar Evento</h1>
+                <h1><b>Editar Evento</b></h1>
 
                 </div>
 

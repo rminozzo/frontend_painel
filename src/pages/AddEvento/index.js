@@ -61,7 +61,7 @@ export const AddEvento = () => {
             <Header />
             <Container>
                 <div class="topo">
-                    <h1>Cadastrar Evento</h1>
+                    <h1><b>Cadastrar Evento</b></h1>
 
                 </div>
 
@@ -98,7 +98,7 @@ export const AddEvento = () => {
 
                         <Form.Group className="mb-2" >
                             <Form.Label >Ponto: </Form.Label>
-                            <Form.Control size="sm" type="text" name="ponto_evento" placeholder="Ponto" onChange={valueInput} required />
+                            <Form.Control type="text" name="ponto_evento" placeholder="Ponto" onChange={valueInput} required />
                         </Form.Group>
 
                         <Form.Group className="mb-2" >
