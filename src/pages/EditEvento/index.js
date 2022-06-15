@@ -164,8 +164,8 @@ export const EditEvento = (props) => {
                         <Row className="g-2">
                             <Col>
                                 <Form.Group className="mb-2" >
-                                    <Form.Label >Data do Evento: </Form.Label>
-                                    <Form.Control name="data_evento" type="text" placeholder="Data" value={moment(data_evento).format("DD/MM/YYYY HH:mm")} onChange={text => setData_evento(text.target.value)} disabled required />
+                                    <Form.Label >Data/Hora do Evento: </Form.Label>
+                                    <Form.Control name="data_evento" type="text" placeholder="Data" value={moment(data_evento).format("DD/MM/YYYY HH:mm")} onChange={text => setData_evento(text.target.value)}  required />
                                 </Form.Group>
                             </Col>
                             <Col>

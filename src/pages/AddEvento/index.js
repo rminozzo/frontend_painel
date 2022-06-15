@@ -3,13 +3,18 @@ import api from '../../config/configApi';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, Redirect } from "react-router-dom";
 import { Container } from '../../styles/custom'
-
+import "react-datepicker/dist/react-datepicker.css";
 import { Button, Form, Alert, Row, Col } from 'react-bootstrap';
 import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import Input from '../../components/InputMask';
+import MaskedFormControl from 'react-bootstrap-maskedinput'
+import InputMask from "react-input-mask";
+//import Footer from '../../components/Footer';
 import "../../styles/forms/index.css"
 
 export const AddEvento = () => {
+
+    const [datamask, setDatamask] = useState('');
 
     const [evento, setEvento] = useState({
         status_evento: '',
@@ -78,6 +83,7 @@ export const AddEvento = () => {
                     : ""}
 
                 <div className="container-form">
+                    
                     <Form className="form-default" onSubmit={addEvento}>
 
                         <Row className="g-2">
@@ -108,6 +114,7 @@ export const AddEvento = () => {
 
                         <Form.Group className="mb-2" >
                             <Form.Label >Endereço: </Form.Label>
+                            
                             <Form.Control type="text" name="endereco_evento" placeholder="Rua Brasil, 595, Centro" onChange={valueInput} required />
                         </Form.Group>
 
@@ -120,7 +127,9 @@ export const AddEvento = () => {
                             <Col>
                                 <Form.Group className="mb-2" >
                                     <Form.Label >Data do Evento: </Form.Label>
-                                    <Form.Control type="datetime-local" name="data_evento" placeholder="Data" onChange={valueInput} required />
+                                    <Input className="form-control" value={datamask} onChange={(event) => setDatamask(event.target.value)}/>
+                                    
+                                    {/*<Form.Control type="text" name="data_evento" placeholder="Data" onChange={valueInput} required ></Form.Control>*/}
                                 </Form.Group>
                             </Col>
                             <Col>
@@ -138,11 +147,14 @@ export const AddEvento = () => {
 
                         <Button variant='success' type="submit">Cadastrar</Button>{" "}{" "}
                         <Link to={"/"}><Button>Voltar</Button></Link>
+                        
                     </Form>
                 </div>
                 
-                
+               
             </Container>
+
+            
             
         </>
 
