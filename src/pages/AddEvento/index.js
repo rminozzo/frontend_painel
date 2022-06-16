@@ -127,7 +127,7 @@ export const AddEvento = () => {
                         <Row className="g-2">
                             <Col>
                                 <Form.Group className="mb-2" >
-                                    <Form.Label >Data do Evento: </Form.Label>
+                                    <Form.Label >Data/Hora do Evento: </Form.Label>
                                     
                                     <Input name="data_evento" mask="99/99/9999 99:99" value={evento.data_evento} onChange={valueInput} required/>
                                     
@@ -135,7 +135,7 @@ export const AddEvento = () => {
                             </Col>
                             <Col>
                                 <Form.Group className="mb-3" >
-                                    <Form.Label >Previsao: </Form.Label>
+                                    <Form.Label >Previsão: </Form.Label>
                                     <Input name="previsao_evento" mask="99/99/9999 99:99" value={evento.previsao_evento} onChange={valueInput} required />
                                 </Form.Group>
                             </Col>

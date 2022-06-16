@@ -171,7 +171,7 @@ export const EditEvento = (props) => {
                             </Col>
                             <Col>
                                 <Form.Group className="mb-3" >
-                                    <Form.Label >Previsao: </Form.Label>
+                                    <Form.Label >Previsão: </Form.Label>
                                     <Input name="previsao_evento" mask="99/99/9999 99:99" value={previsao_evento} onChange={text => setPrevisao_evento(text.target.value)} required />
                                 </Form.Group>
                             </Col>
