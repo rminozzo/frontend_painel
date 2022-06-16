@@ -3,7 +3,7 @@ import api from '../../config/configApi';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, Redirect } from "react-router-dom";
 import { Container } from '../../styles/custom'
-import "react-datepicker/dist/react-datepicker.css";
+//import "react-datepicker/dist/react-datepicker.css";
 import { Button, Form, Alert, Row, Col } from 'react-bootstrap';
 import Header from '../../components/Header';
 import Input from '../../components/InputMask';

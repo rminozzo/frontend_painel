@@ -6,6 +6,7 @@ import { Container } from '../../styles/custom'
 import { Button, Form, Alert, Row, Col } from 'react-bootstrap';
 import Header from '../../components/Header';
 import "../../styles/forms/index.css"
+import Input from '../../components/InputMask';
 
 export const EditEvento = (props) => {
 
@@ -165,13 +166,13 @@ export const EditEvento = (props) => {
                             <Col>
                                 <Form.Group className="mb-2" >
                                     <Form.Label >Data/Hora do Evento: </Form.Label>
-                                    <Form.Control name="data_evento" type="text" placeholder="Data" value={moment(data_evento).format("DD/MM/YYYY HH:mm")} onChange={text => setData_evento(text.target.value)}  required />
+                                    <Input name="data_evento" mask="99/99/9999 99:99" value={data_evento} onChange={text => setData_evento(text.target.value)}  required />
                                 </Form.Group>
                             </Col>
                             <Col>
                                 <Form.Group className="mb-3" >
                                     <Form.Label >Previsao: </Form.Label>
-                                    <Form.Control name="previsao_evento" type="text" placeholder="Previsão" value={moment(previsao_evento).format("DD/MM/YYYY HH:mm")} onChange={text => setPrevisao_evento(text.target.value)} required />
+                                    <Input name="previsao_evento" mask="99/99/9999 99:99" value={previsao_evento} onChange={text => setPrevisao_evento(text.target.value)} required />
                                 </Form.Group>
                             </Col>
                         </Row>
