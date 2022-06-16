@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import moment from 'moment';
+//import moment from 'moment';
 import api from '../../config/configApi';
 import { Container } from '../../styles/custom'
 import '../../index.css'
@@ -191,8 +191,8 @@ export const Dashboard = () => {
                                 {listar_todos.status_evento}
                             </span>*/}
                                 </td>
-                                <td>{moment(listar_todos.data_evento).format("DD/MM/YYYY HH:mm")}</td>
-                                <td>{moment(listar_todos.previsao_evento).format("DD/MM/YYYY HH:mm")}</td>
+                                <td>{listar_todos.data_evento}</td>
+                                <td>{listar_todos.previsao_evento}</td>
 
                                 <td>
                                     {/*<Link to={"/view-evento/" + listar_todos.id_evento}>*/}<Button variant="primary" type="button" onClick={() => getEvento(listar_todos.id_evento)}  ><FontAwesomeIcon icon={faEye} /> Ver Detalhes</Button>{" "}
@@ -253,9 +253,9 @@ export const Dashboard = () => {
                     <span><b>Energia:</b> {data2.energia_evento}</span><br />
                     <span><b>Endereço:</b> {data2.endereco_evento}</span><br />
                     <span><b>Afeta:</b> {data2.afeta_evento}</span><br />
-                    <span><b>Data:</b> {moment(data2.data_evento).format("DD/MM/YYYY HH:mm")}</span><br />
+                    <span><b>Data:</b> {data2.data_evento}</span><br />
                     <span><b>Protocolo:</b> {data2.protocolo_evento}</span><br />
-                    <span><b>Previsão:</b> {moment(data2.previsao_evento).format("DD/MM/YYYY HH:mm")}</span><br />
+                    <span><b>Previsão:</b> {data2.previsao_evento}</span><br />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="danger" type="button" onClick={handleClose2}> Fechar </Button>

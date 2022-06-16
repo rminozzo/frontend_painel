@@ -1,11 +1,23 @@
 import React from "react";
-
 import InputMask from "react-input-mask";
-//import {Form} from 'react-bootstrap';
 
-const Input = ({value, onChange}) =>{
+//const onlyNumbers = (str) => str.replace(/[^0-9]/g, '');
 
-    return <InputMask mask="99/99/9999" value={value} onChange={onChange}/>
+const Input = ({ value, onChange, name, mask }) =>{
+
+
+    function handleChange(event) {
+        onChange({
+          ...event,
+          target: {
+            ...event.target,
+            name,
+            //value: onlyNumbers(event.target.value)
+          }
+        });
+      }
+
+    return <InputMask className="form-control" mask={mask} name={name} value={value} onChange={handleChange} />
 }
 
 export default Input;

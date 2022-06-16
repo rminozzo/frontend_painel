@@ -7,14 +7,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Button, Form, Alert, Row, Col } from 'react-bootstrap';
 import Header from '../../components/Header';
 import Input from '../../components/InputMask';
-import MaskedFormControl from 'react-bootstrap-maskedinput'
-import InputMask from "react-input-mask";
+//import MaskedFormControl from 'react-bootstrap-maskedinput'
+//import InputMask from "react-input-mask";
 //import Footer from '../../components/Footer';
 import "../../styles/forms/index.css"
 
 export const AddEvento = () => {
 
-    const [datamask, setDatamask] = useState('');
+    //const [datamask, setDatamask] = useState('');
 
     const [evento, setEvento] = useState({
         status_evento: '',
@@ -25,7 +25,8 @@ export const AddEvento = () => {
         afeta_evento: '',
         data_evento: '',
         protocolo_evento: '',
-        previsao_evento: ''
+        previsao_evento: '',
+        teste_evento: ''
     });
 
     const [status, setStatus] = useState({
@@ -127,15 +128,15 @@ export const AddEvento = () => {
                             <Col>
                                 <Form.Group className="mb-2" >
                                     <Form.Label >Data do Evento: </Form.Label>
-                                    <Input className="form-control" value={datamask} onChange={(event) => setDatamask(event.target.value)}/>
                                     
-                                    {/*<Form.Control type="text" name="data_evento" placeholder="Data" onChange={valueInput} required ></Form.Control>*/}
+                                    <Input name="data_evento" mask="99/99/9999 99:99" value={evento.data_evento} onChange={valueInput} required/>
+                                    
                                 </Form.Group>
                             </Col>
                             <Col>
                                 <Form.Group className="mb-3" >
                                     <Form.Label >Previsao: </Form.Label>
-                                    <Form.Control  type="datetime-local" name="previsao_evento" placeholder="Previsão" onChange={valueInput} required />
+                                    <Input name="previsao_evento" mask="99/99/9999 99:99" value={evento.previsao_evento} onChange={valueInput} required />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -144,7 +145,7 @@ export const AddEvento = () => {
                             <Form.Label >Protocolo: </Form.Label>
                             <Form.Control type="text" name="protocolo_evento" placeholder="Protocolo" onChange={valueInput} required />
                         </Form.Group>
-
+                        
                         <Button variant='success' type="submit">Cadastrar</Button>{" "}{" "}
                         <Link to={"/"}><Button>Voltar</Button></Link>
                         
