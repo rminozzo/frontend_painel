@@ -1,4 +1,4 @@
-import moment from 'moment';
+/*import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
@@ -74,4 +74,4 @@ export const ViewEvento = (props) =>{
             <Link to={"/edit-evento/" + data.id_evento}><button type="button">Editar</button></Link>
         </div>
     )
-}
+}*/
