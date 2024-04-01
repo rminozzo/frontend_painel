@@ -12,21 +12,18 @@ import Input from '../../components/InputMask';
 //import Footer from '../../components/Footer';
 import "../../styles/forms/index.css"
 
-export const AddEvento = () => {
+export const AddAlarme = () => {
 
     //const [datamask, setDatamask] = useState('');
 
-    const [evento, setEvento] = useState({
-        status_evento: '',
-        cidade_evento: '',
-        ponto_evento: '',
-        energia_evento: '',
-        endereco_evento: '',
-        afeta_evento: '',
-        data_evento: '',
-        protocolo_evento: '',
-        previsao_evento: '',
-        teste_evento: ''
+    const [alarme, setAlarme] = useState({
+        ip_switch: '',
+        cidade: '',
+        interface_switch: '',
+        data_alarme: '',
+        status: '',
+        observacao: '',
+        
     });
 
     const [status, setStatus] = useState({
@@ -34,13 +31,13 @@ export const AddEvento = () => {
         mensagem: ''
     });
 
-    const valueInput = e => setEvento({ ...evento, [e.target.name]: e.target.value });
+    const valueInput = e => setAlarme({ ...alarme, [e.target.name]: e.target.value });
 
-    const addEvento = async e => {
+    const AddAlarme = async e => {
         e.preventDefault();
 
 
-        await api.post('/evento/evento', evento)
+        await api.post('/alarme/addalarme', alarme)
             .then((response) => {
                 setStatus({
                     type: 'success',
@@ -67,7 +64,7 @@ export const AddEvento = () => {
             <Header />
             <Container>
                 <div class="topo">
-                    <h1><b>Cadastrar Evento</b></h1>
+                    <h1><b>Cadastrar Alarme</b></h1>
 
                 </div>
 
@@ -85,66 +82,50 @@ export const AddEvento = () => {
 
                 <div className="container-form">
                     
-                    <Form className="form-default" onSubmit={addEvento}>
+                    <Form className="form-default" onSubmit={AddAlarme}>
 
                         <Row className="g-2">
                             <Col xs="4">
-                                <Form.Label >Status Evento: </Form.Label>
-                                <Form.Select name="status_evento" onChange={valueInput} className="mb-1" required>
+                                <Form.Label >Status Alarme: </Form.Label>
+                                <Form.Select name="status" onChange={valueInput} className="mb-1" required>
                                     <option>Selecione</option>
-                                    <option value="Ativo">Ativo</option>
+                                    <option value="Em Analise">Em Analise</option>
                                     <option value="Resolvido">Resolvido</option>
-                                    <option value="Sem Info">Sem Info</option>
                                 </Form.Select>
                             </Col>
                         </Row>
+                       
+                        <Form.Group className="mb-2" >
+                            <Form.Label >IP Switch: </Form.Label>
+                            <Input type="text" name="ip_switch" placeholder="IP Switch" onChange={valueInput} required />
+                        </Form.Group>
+
+                        <Form.Group className="mb-2" >
+                            <Form.Label >Interface: </Form.Label>
+                            <Form.Control  type="text"  name="interface_switch" placeholder="Interface" onChange={valueInput} required />
+                        </Form.Group>
+
                         <Form.Group className="mb-2" >
                             <Form.Label>Cidade:</Form.Label>
-                            <Form.Control type="text" name="cidade_evento" placeholder="Cidade Evento" onChange={valueInput} required />
-                        </Form.Group>
-
-                        <Form.Group className="mb-2" >
-                            <Form.Label >Ponto: </Form.Label>
-                            <Form.Control type="text" name="ponto_evento" placeholder="Ponto" onChange={valueInput} required />
-                        </Form.Group>
-
-                        <Form.Group className="mb-2" >
-                            <Form.Label >Energia: </Form.Label>
-                            <Form.Control  type="text" name="energia_evento" placeholder="Evento" onChange={valueInput} required />
-                        </Form.Group>
-
-                        <Form.Group className="mb-2" >
-                            <Form.Label >Endereço: </Form.Label>
-                            
-                            <Form.Control type="text" name="endereco_evento" placeholder="Rua Brasil, 595, Centro" onChange={valueInput} required />
-                        </Form.Group>
-
-                        <Form.Group className="mb-2" >
-                            <Form.Label >Clientes afetados: </Form.Label>
-                            <Form.Control  type="text" name="afeta_evento" placeholder="30 clientes" onChange={valueInput} required />
+                            <Form.Control type="text" name="cidade" placeholder="Cidade Switch" onChange={valueInput} required />
                         </Form.Group>
 
                         <Row className="g-2">
                             <Col>
                                 <Form.Group className="mb-2" >
-                                    <Form.Label >Data/Hora do Evento: </Form.Label>
+                                    <Form.Label >Data Alarme: </Form.Label>
                                     
-                                    <Input name="data_evento" mask="99/99/9999 99:99" value={evento.data_evento} onChange={valueInput} required/>
+                                    <Input name="data_alarme" mask="99/99/9999" value={alarme.data_alarme} onChange={valueInput} required/>
                                     
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group className="mb-3" >
-                                    <Form.Label >Previsão: </Form.Label>
-                                    <Input name="previsao_evento" mask="99/99/9999 99:99" value={evento.previsao_evento} onChange={valueInput} required />
                                 </Form.Group>
                             </Col>
                         </Row>
 
                         <Form.Group className="mb-2">
-                            <Form.Label >Protocolo: </Form.Label>
-                            <Form.Control type="text" name="protocolo_evento" placeholder="Protocolo" onChange={valueInput} required />
+                            <Form.Label >Observação: </Form.Label>
+                            <Form.Control as="textarea" rows={3} name="observacao" placeholder="Observação" onChange={valueInput}/>
                         </Form.Group>
+                     
                         
                         <Button variant='success' type="submit">Cadastrar</Button>{" "}{" "}
                         <Link to={"/"}><Button>Voltar</Button></Link>

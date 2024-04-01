@@ -34,23 +34,23 @@ export const Dashboard = () => {
     const [idDelete, setIdDelete] = useState('');
 
     ///////ABRE MODAL///////
-    const handleShow = (idEvento) => {
+    const handleShow = (idAlarme) => {
         setShow(true);
-        setIdDelete(idEvento);
+        setIdDelete(idAlarme);
     }
 
     const choose = (option) => {
         if (option === true) {
-            deleteEvento(idDelete);
+            deleteAlarme(idDelete);
 
         } else {
             handleClose();
         }
     }
 
-    ///////LISTAR TODOS OS EVENTOS///////
+    ///////LISTAR TODOS OS Alarmes///////
 
-    const getEventos = async (page) => {
+    const getAlarmes = async (page) => {
 
         if (page === undefined) {
             page = 1;
@@ -58,10 +58,10 @@ export const Dashboard = () => {
 
         setPage(page);
 
-        await api.get("/evento/listar-todos/" + page)
+        await api.get("/alarme/listar-todos/" + page)
 
             .then((response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 setData(response.data.listar_todos)
                 setLastpage(response.data.lastPage)
 
@@ -81,20 +81,20 @@ export const Dashboard = () => {
             })
     }
 
-    ///////EXIBE DETALHES DO EVENTO///////
+    ///////EXIBE DETALHES DO Alarme///////
 
-    const getEvento = async (idEvento) => {
+    const getAlarme = async (id) => {
 
-        await api.get("/evento/evento/" + idEvento)
+        await api.get("/alarme/alarme/" + id)
             .then((response) => {
-                if (response.data.evento) {
-                    console.log(response.data)
-                    setData2(response.data.evento)
+                if (response.data.alarme) {
+                    //console.log(response.data)
+                    setData2(response.data.alarme)
                     handleShow2();
                 } else {
                     setStatus({
                         type: 'error',
-                        mensagem: "Erro: Evento não encontrado"
+                        mensagem: "Erro: Alarme não encontrado"
                     });
                 }
             }).catch((err) => {
@@ -112,20 +112,18 @@ export const Dashboard = () => {
             })
     }
 
-    ///////DELETE EVENTO/////////
+    ///////DELETE Alarme/////////
 
-    const deleteEvento = async (idDelete) => {
+    const deleteAlarme = async (id) => {
 
-        console.log(idDelete)
-
-        await api.delete("/evento/evento/" + idDelete)
+        await api.delete("/alarme/delalarme/" + id)
 
             .then((response) => {
                 setStatus({
                     type: 'success',
                     mensagem: response.data.mensagem
                 });
-                getEventos();
+                getAlarmes();
                 handleClose();
 
             }).catch((err) => {
@@ -149,7 +147,7 @@ export const Dashboard = () => {
 
 
     useEffect(() => {
-        getEventos();
+        getAlarmes();
     }, []);
 
 
@@ -161,7 +159,7 @@ export const Dashboard = () => {
 
             <Container>
 
-                <Link to={"/add-evento/"}><Button variant="success" to="/add-evento" ><FontAwesomeIcon icon={faPlusSquare} /> Cadastrar Evento</Button><br /></Link>
+                <Link to={"/add-alarme/"}><Button variant="success" to="/add-alarme" ><FontAwesomeIcon icon={faPlusSquare} /> Cadastrar Alarme</Button><br /></Link>
                 <hr></hr>
 
                 <h1>Dashboard</h1>
@@ -175,29 +173,30 @@ export const Dashboard = () => {
                     <thead>
                         <tr>
                             <th>Cidade</th>
+                            <th>IP Switch</th>
+                            <th>Interface</th>
                             <th>Status</th>
-                            <th>Hora Evento</th>
-                            <th>Previsão</th>
+                            <th>Data</th>
                             <th>Ação</th>
                         </tr>
                     </thead>
                     <tbody>
                         {Array.isArray(data) && data.map(listar_todos => (
-                            <tr key={listar_todos.id_evento}>
+                            <tr key={listar_todos.id}>
 
-                                <td>{listar_todos.cidade_evento}</td>
-                                <td style={{ background: listar_todos.status_evento === 'Ativo' ? '#cd2f33' : listar_todos.status_evento === 'Resolvido' ? '#56b85c' : '#999' }}>{listar_todos.status_evento}
-                                    {/*<span className='badge' style={{background: listar_todos.status_evento === 'Ativo' ? '#FF0000' : listar_todos.status_evento === 'Resolvido' ? '#56b85c' : '#999'}}>
-                                {listar_todos.status_evento}
-                            </span>*/}
+                                <td>{listar_todos.cidade}</td>
+                                <td>{listar_todos.ip_switch}</td>
+                                <td>{listar_todos.interface_switch}</td>
+                                <td style={{ background: listar_todos.status === 'Em Analise' ? '#cd2f33' : listar_todos.status === 'Resolvido' ? '#56b85c' : '#999' }}>{listar_todos.status}
+                                  
                                 </td>
-                                <td>{listar_todos.data_evento}</td>
-                                <td>{listar_todos.previsao_evento}</td>
+                                <td>{listar_todos.data_alarme}</td>
+                                
 
                                 <td>
-                                    {/*<Link to={"/view-evento/" + listar_todos.id_evento}>*/}<Button variant="primary" type="button" onClick={() => getEvento(listar_todos.id_evento)}  ><FontAwesomeIcon icon={faEye} /> Ver Detalhes</Button>{" "}
-                                    <Link to={"/edit-evento/" + listar_todos.id_evento}><Button variant="warning" type="button" ><FontAwesomeIcon icon={faEdit} /> Editar</Button></Link>{" "}
-                                    <Button variant="danger" type="button" onClick={() => handleShow(listar_todos.id_evento)}  ><FontAwesomeIcon icon={faTrashAlt} /> Apagar</Button>
+                                    <Button variant="primary" type="button" onClick={() => getAlarme(listar_todos.id)}  ><FontAwesomeIcon icon={faEye} /> Ver Detalhes</Button>{" "}
+                                    <Link to={"/edit-alarme/" + listar_todos.id}><Button variant="warning" type="button" ><FontAwesomeIcon icon={faEdit} /> Editar</Button></Link>{" "}
+                                    <Button variant="danger" type="button" onClick={() => handleShow(listar_todos.id)}  ><FontAwesomeIcon icon={faTrashAlt} /> Apagar</Button>
                                 </td>
                             </tr>
                         ))}
@@ -207,15 +206,15 @@ export const Dashboard = () => {
                 </Table>
                 <ButtonToolbar aria-label="Toolbar with button groups" style={faAlignCenter}>
                     <ButtonGroup className="me-2" aria-label="First group">
-                        {page !== 1 ? <Button type="button" onClick={() => getEventos(1)}>Primeira</Button> : <Button type="button" disabled>Primeira</Button>}{" "}
+                        {page !== 1 ? <Button type="button" onClick={() => getAlarmes(1)}>Primeira</Button> : <Button type="button" disabled>Primeira</Button>}{" "}
 
-                        {page !== 1 ? <Button type="button" onClick={() => getEventos(page - 1)}>{page - 1}</Button> : ""}{" "}
+                        {page !== 1 ? <Button type="button" onClick={() => getAlarmes(page - 1)}>{page - 1}</Button> : ""}{" "}
 
                         <Button type="button" disabled>{page}</Button>{" "}
 
-                        {page + 1 <= lastPage ? <Button type="button" onClick={() => getEventos(page + 1)}>{page + 1}</Button> : " "} {" "}
+                        {page + 1 <= lastPage ? <Button type="button" onClick={() => getAlarmes(page + 1)}>{page + 1}</Button> : " "} {" "}
 
-                        {page !== lastPage ? <Button type="button" onClick={() => getEventos(lastPage)}>Ultima</Button> : <Button type="button" disabled>Ultima</Button>}{" "}
+                        {page !== lastPage ? <Button type="button" onClick={() => getAlarmes(lastPage)}>Ultima</Button> : <Button type="button" disabled>Ultima</Button>}{" "}
 
                     </ButtonGroup>
                 </ButtonToolbar>
@@ -226,9 +225,9 @@ export const Dashboard = () => {
 
             <Modal show={show} onHide={handleClose} >
                 <Modal.Header closeButton>
-                    <Modal.Title>Apagar Evento</Modal.Title>
+                    <Modal.Title>Apagar Alarme</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Você realmente deseja apagar o evento?</Modal.Body>
+                <Modal.Body>Você realmente deseja apagar o Alarme?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>Cancelar</Button>
                     <Button variant="danger" id="sim" type="button" onClick={() => choose(true)} > Confirmar </Button>
@@ -238,24 +237,21 @@ export const Dashboard = () => {
 
             {
 
-                ////////////////////////////////// MODAL DETALHES EVENTO /////////////////////////////////
+                ////////////////////////////////// MODAL DETALHES Alarme /////////////////////////////////
 
             }
 
             <Modal show={show2} onHide={handleClose2} >
                 <Modal.Header closeButton>
-                    <Modal.Title>Detalhes do Evento</Modal.Title>
+                    <Modal.Title>Detalhes do Alarme</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <span><b>Status:</b> {data2.status_evento}</span><br />
-                    <span><b>Cidade:</b> {data2.cidade_evento}</span><br />
-                    <span><b>Ponto:</b> {data2.ponto_evento}</span><br />
-                    <span><b>Energia:</b> {data2.energia_evento}</span><br />
-                    <span><b>Endereço:</b> {data2.endereco_evento}</span><br />
-                    <span><b>Afeta:</b> {data2.afeta_evento}</span><br />
-                    <span><b>Data:</b> {data2.data_evento}</span><br />
-                    <span><b>Protocolo:</b> {data2.protocolo_evento}</span><br />
-                    <span><b>Previsão:</b> {data2.previsao_evento}</span><br />
+                    <span><b>Status:</b> {data2.status}</span><br />
+                    <span><b>Cidade:</b> {data2.cidade}</span><br />
+                    <span><b>IP Switch:</b> {data2.ip_switch}</span><br />
+                    <span><b>Interface:</b> {data2.interface_switch}</span><br />
+                    <span><b>Data:</b> {data2.data_alarme}</span><br />
+                    <span><b>Obesarvação:</b> {data2.observacao}</span><br />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="danger" type="button" onClick={handleClose2}> Fechar </Button>
